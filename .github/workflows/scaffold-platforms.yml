@@ -1,0 +1,54 @@
+name: Scaffold platform folders
+
+# Manual trigger only - this is a one-off setup step, not something that
+# should run on every push. Run it once from the Actions tab, then you
+# won't need it again unless you delete android/ or ios/.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scaffold:
+    runs-on: macos-latest # macOS runner so both android/ AND ios/ can be generated in one pass
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: stable
+          cache: true
+
+      - name: Generate android/ and ios/ if they don't already exist
+        run: |
+          if [ -d "android" ] && [ -d "ios" ]; then
+            echo "android/ and ios/ already exist - nothing to do. Delete them first if you want to regenerate."
+            exit 0
+          fi
+          flutter create --project-name keja_app --org com.keja --platforms=android,ios .
+
+      - name: Confirm existing source wasn't touched
+        run: |
+          # flutter create skips files that already exist rather than
+          # overwriting them, but this fails loudly instead of silently
+          # if that assumption ever changes in a future Flutter version.
+          git diff --stat -- lib/ pubspec.yaml test/ | grep . && \
+            (echo "flutter create modified existing project files - stopping before commit, please review manually" && exit 1) || \
+            echo "lib/, pubspec.yaml, test/ untouched - safe to proceed"
+
+      - run: flutter pub get
+
+      - name: Commit generated platform folders
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add android ios pubspec.lock
+          git diff --cached --quiet && echo "Nothing to commit" || git commit -m "Generate Android/iOS platform folders"
+          git push
