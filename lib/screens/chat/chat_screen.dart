@@ -106,7 +106,7 @@ class _MessageBubble extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 280),
         decoration: BoxDecoration(color: AppColors.surfaceAlt, borderRadius: BorderRadius.circular(12)),
         child: message.isLocationShare
-            ? Row(mainAxisSize: MainAxisSize.min, children: const [Icon(Icons.place, size: 14, color: AppColors.primary), SizedBox(width: 6), Text('Shared location')])
+            ? const Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.place, size: 14, color: AppColors.primary), SizedBox(width: 6), Text('Shared location')])
             : Text(message.body ?? ''),
       ),
     );

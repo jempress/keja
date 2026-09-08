@@ -29,7 +29,7 @@ class AppTheme {
         elevation: 0,
         centerTitle: false,
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         color: Colors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -55,7 +55,7 @@ class AppTheme {
           elevation: 0,
         ),
       ),
-      chipTheme: ChipThemeData(
+      chipTheme: const ChipThemeData(
         backgroundColor: Colors.white,
         side: const BorderSide(color: AppColors.border),
         labelStyle: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
