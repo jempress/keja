@@ -57,9 +57,9 @@ class AppTheme {
       ),
       chipTheme: const ChipThemeData(
         backgroundColor: Colors.white,
-        side: const BorderSide(color: AppColors.border),
-        labelStyle: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
-        shape: const StadiumBorder(),
+        side: BorderSide(color: AppColors.border),
+        labelStyle: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+        shape: StadiumBorder(),
       ),
     );
   }
