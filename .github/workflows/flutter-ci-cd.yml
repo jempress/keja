@@ -84,3 +84,4 @@ jobs:
           groups: testers
           file: build/app/outputs/flutter-apk/app-release.apk
           releaseNotes: ${{ github.event.head_commit.message }}
+          debug: true # temporary - gives a real error message instead of the generic "Failed to authenticate"; remove once this is working
