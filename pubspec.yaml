@@ -40,5 +40,15 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^4.0.0
 
+# geolocator's own pubspec constraint on geolocator_android is loose
+# enough that pub keeps resolving to 4.6.2 (the broken release) even
+# with geolocator itself pinned down - a committed pubspec.lock from
+# the scaffold step also keeps re-using that resolution rather than
+# downgrading it. This override forces the actual implementation
+# package to a version that predates the bug, bypassing normal
+# constraint solving.
+dependency_overrides:
+  geolocator_android: 4.5.4
+
 flutter:
   uses-material-design: true
