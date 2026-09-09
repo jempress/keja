@@ -81,24 +81,22 @@ jobs:
           FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
           FIREBASE_ANDROID_APP_ID: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
         run: |
-          # Writing the secret to a file via a quoted env-var expansion
-          # (rather than interpolating directly into the script)
-          # avoids both shell-quoting issues and accidental logging of
-          # the secret, and preserves the JSON's real structure exactly
-          # as it was pasted into the GitHub secret.
+          # Write secret to file safely
           echo "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$HOME/firebase-service-account.json"
 
-          # Sanity-check it's actually valid JSON before we even try to
-          # authenticate with it - turns "Failed to authenticate" into a
-          # much clearer "your secret isn't valid JSON" if that's the issue.
+          # Verify valid JSON structure
           python3 -c "import json; json.load(open('$HOME/firebase-service-account.json'))" \
             || (echo "::error::FIREBASE_SERVICE_ACCOUNT_JSON secret is not valid JSON - re-copy the full downloaded key file" && exit 1)
 
           npm install -g firebase-tools
 
-          export GOOGLE_APPLICATION_CREDENTIALS="$HOME/firebase-service-account.json"
+          # Set release notes safely for workflow_dispatch triggers
+          RELEASE_NOTES="${{ github.event.head_commit.message || 'Manual build distribution' }}"
+
+          # Distribute using explicit service account flag
           firebase appdistribution:distribute \
             build/app/outputs/flutter-apk/app-release.apk \
             --app "$FIREBASE_ANDROID_APP_ID" \
             --groups "testers" \
-            --release-notes "${{ github.event.head_commit.message }}"
+            --release-notes "$RELEASE_NOTES" \
+            --service-account "$HOME/firebase-service-account.json"
