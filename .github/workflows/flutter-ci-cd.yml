@@ -8,7 +8,7 @@ on:
   workflow_dispatch: # lets you trigger distribute_android manually once ready
 
 env:
-  FLUTTER_VERSION: '3.24.0'
+  FLUTTER_VERSION: "3.24.0"
 
 jobs:
   build_and_test:
@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: "17"
 
       - uses: subosito/flutter-action@v2
         with:
@@ -51,7 +51,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: "17"
 
       - uses: subosito/flutter-action@v2
         with:
@@ -82,7 +82,7 @@ jobs:
           FIREBASE_ANDROID_APP_ID: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
         run: |
           # Writing the secret to a file via a quoted env-var expansion
-          # (rather than interpolating ${{ }} directly into the script)
+          # (rather than interpolating directly into the script)
           # avoids both shell-quoting issues and accidental logging of
           # the secret, and preserves the JSON's real structure exactly
           # as it was pasted into the GitHub secret.
