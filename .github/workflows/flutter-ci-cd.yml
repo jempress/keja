@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch: # lets you trigger distribute_android manually once ready
 
 env:
   FLUTTER_VERSION: '3.24.0'
@@ -38,7 +39,11 @@ jobs:
   distribute_android:
     name: Build & distribute to Firebase App Distribution
     needs: build_and_test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Paused: only runs when you manually trigger it from the Actions tab
+    # (Run workflow button), not on every push. Switch back to
+    # `github.event_name == 'push' && github.ref == 'refs/heads/main'`
+    # once the backend has a public URL and API_BASE_URL is set for real.
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
