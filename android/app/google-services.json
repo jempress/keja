@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1077248732272",
+    "project_id": "keja-d5bab",
+    "storage_bucket": "keja-d5bab.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077248732272:android:0002d3277112a6e9a218b5",
+        "android_client_info": {
+          "package_name": "com.keja.keja_android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB32YOdHIMV7npQFFsDEM9UoiH5WWIGiqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
